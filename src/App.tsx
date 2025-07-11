@@ -4,14 +4,14 @@ const AWSResourceMapper = () => {
   const [selectedApp, setSelectedApp] = useState('App A');
   const [animationTime, setAnimationTime] = useState(0);
   const [highlightedFlow, setHighlightedFlow] = useState<string | null>(null);
-  const [rotationX, setRotationX] = useState(-5);
-  const [rotationY, setRotationY] = useState(2);
+  const [rotationX, setRotationX] = useState(-3);
+  const [rotationY, setRotationY] = useState(1);
   const containerRef = useRef<HTMLDivElement>(null);
 
   // Animation loop for flow particles
   useEffect(() => {
     const interval = setInterval(() => {
-      setAnimationTime(prev => prev + 0.02);
+      setAnimationTime(prev => prev + 0.03);
     }, 16);
     return () => clearInterval(interval);
   }, []);
@@ -27,8 +27,8 @@ const AWSResourceMapper = () => {
         const mouseX = (e.clientX - centerX) / rect.width;
         const mouseY = (e.clientY - centerY) / rect.height;
         
-        setRotationX(-5 + mouseY * 6);
-        setRotationY(2 + mouseX * 6);
+        setRotationX(-3 + mouseY * 4);
+        setRotationY(1 + mouseX * 4);
       }
     };
 
@@ -36,91 +36,83 @@ const AWSResourceMapper = () => {
     return () => window.removeEventListener('mousemove', handleMouseMove);
   }, []);
 
-  // AWS service configurations with enhanced 3D styling
+  // AWS service configurations
   const serviceIcons = {
     EC2: {
       color: '#FF9900',
       bgColor: 'linear-gradient(135deg, #FFF8F0 0%, #FFE4B5 100%)',
       borderColor: '#FF9900',
-      shadowColor: 'rgba(255, 153, 0, 0.4)',
+      shadowColor: 'rgba(255, 153, 0, 0.3)',
       icon: '🖥️',
       label: 'EC2',
-      category: 'Compute',
-      depth: 40
+      category: 'Compute'
     },
     S3: {
       color: '#3F90CF',
       bgColor: 'linear-gradient(135deg, #F0F8FF 0%, #B0E0E6 100%)',
       borderColor: '#3F90CF',
-      shadowColor: 'rgba(63, 144, 207, 0.4)',
+      shadowColor: 'rgba(63, 144, 207, 0.3)',
       icon: '📦',
       label: 'S3',
-      category: 'Storage',
-      depth: 50
+      category: 'Storage'
     },
     RDS: {
       color: '#527FFF',
       bgColor: 'linear-gradient(135deg, #F5F7FF 0%, #C7D2FE 100%)',
       borderColor: '#527FFF',
-      shadowColor: 'rgba(82, 127, 255, 0.4)',
+      shadowColor: 'rgba(82, 127, 255, 0.3)',
       icon: '🗄️',
       label: 'RDS',
-      category: 'Database',
-      depth: 60
+      category: 'Database'
     },
     Lambda: {
       color: '#FF9900',
       bgColor: 'linear-gradient(135deg, #FFF8F0 0%, #FFE4B5 100%)',
       borderColor: '#FF9900',
-      shadowColor: 'rgba(255, 153, 0, 0.4)',
+      shadowColor: 'rgba(255, 153, 0, 0.3)',
       icon: 'λ',
       label: 'Lambda',
-      category: 'Compute',
-      depth: 45
+      category: 'Serverless'
     },
     CloudWatch: {
       color: '#3F90CF',
       bgColor: 'linear-gradient(135deg, #F0F8FF 0%, #B0E0E6 100%)',
       borderColor: '#3F90CF',
-      shadowColor: 'rgba(63, 144, 207, 0.4)',
+      shadowColor: 'rgba(63, 144, 207, 0.3)',
       icon: '📊',
       label: 'CloudWatch',
-      category: 'Monitor',
-      depth: 35
+      category: 'Monitor'
     },
     APIGateway: {
       color: '#FF4B4B',
       bgColor: 'linear-gradient(135deg, #FFF5F5 0%, #FEB2B2 100%)',
       borderColor: '#FF4B4B',
-      shadowColor: 'rgba(255, 75, 75, 0.4)',
+      shadowColor: 'rgba(255, 75, 75, 0.3)',
       icon: '🌐',
       label: 'API Gateway',
-      category: 'Network',
-      depth: 30
+      category: 'Network'
     },
     ELB: {
       color: '#8C4FFF',
       bgColor: 'linear-gradient(135deg, #F8F5FF 0%, #D8B4FE 100%)',
       borderColor: '#8C4FFF',
-      shadowColor: 'rgba(140, 79, 255, 0.4)',
+      shadowColor: 'rgba(140, 79, 255, 0.3)',
       icon: '⚖️',
       label: 'Load Balancer',
-      category: 'Network',
-      depth: 30
+      category: 'Network'
     },
     VPC: {
       color: '#4CAF50',
       bgColor: 'linear-gradient(135deg, #F8FFF8 0%, #A7F3D0 100%)',
       borderColor: '#4CAF50',
-      shadowColor: 'rgba(76, 175, 80, 0.3)',
+      shadowColor: 'rgba(76, 175, 80, 0.2)',
       icon: '🏢',
       label: 'VPC',
-      category: 'Network',
-      depth: 10
+      category: 'Network'
     }
   };
 
-  // Application configurations with left-middle-right layout
+  // Application configurations with full-width spread
   const applications: { [key: string]: {
     resources: any[];
     title: string;
@@ -132,19 +124,19 @@ const AWSResourceMapper = () => {
         { 
           id: 'vpc', 
           service: 'VPC', 
-          x: 100, 
-          y: 120, 
-          z: 10,
-          width: 1100, 
-          height: 400, 
+          x: 50, 
+          y: 80, 
+          z: 5,
+          width: 1400, 
+          height: 500, 
           type: 'container' 
         },
-        // Left Column - Entry Points
+        // Left Column - Entry Points (spread vertically)
         { 
           id: 'elb', 
           service: 'ELB', 
-          x: 200, 
-          y: 200, 
+          x: 150, 
+          y: 180, 
           z: 30,
           connections: [
             { to: 'ec2-1', label: 'HTTP/HTTPS', type: 'sync', throughput: '5K req/s' },
@@ -154,18 +146,21 @@ const AWSResourceMapper = () => {
         { 
           id: 'cloudwatch', 
           service: 'CloudWatch', 
-          x: 200, 
-          y: 350, 
+          x: 150, 
+          y: 380, 
           z: 35,
-          connections: [] 
+          connections: [
+            { to: 'ec2-1', label: 'Metrics', type: 'async', throughput: '1K/min' },
+            { to: 'ec2-2', label: 'Metrics', type: 'async', throughput: '1K/min' }
+          ] 
         },
         
-        // Middle Column - Processing Layer
+        // Middle Column - Processing Layer (spread vertically)
         { 
           id: 'ec2-1', 
           service: 'EC2', 
-          x: 500, 
-          y: 180, 
+          x: 650, 
+          y: 160, 
           z: 40,
           connections: [
             { to: 'rds', label: 'SQL Query', type: 'sync', throughput: '2K qps' },
@@ -175,8 +170,8 @@ const AWSResourceMapper = () => {
         { 
           id: 'ec2-2', 
           service: 'EC2', 
-          x: 500, 
-          y: 320, 
+          x: 650, 
+          y: 400, 
           z: 40,
           connections: [
             { to: 'rds', label: 'SQL Query', type: 'sync', throughput: '3K qps' },
@@ -184,21 +179,21 @@ const AWSResourceMapper = () => {
           ]
         },
         
-        // Right Column - Data Layer
+        // Right Column - Data Layer (spread vertically)
         { 
           id: 'rds', 
           service: 'RDS', 
-          x: 850, 
-          y: 200, 
-          z: 60,
+          x: 1150, 
+          y: 180, 
+          z: 50,
           connections: [] 
         },
         { 
           id: 's3', 
           service: 'S3', 
-          x: 850, 
-          y: 350, 
-          z: 50,
+          x: 1150, 
+          y: 380, 
+          z: 45,
           connections: [] 
         }
       ],
@@ -211,18 +206,18 @@ const AWSResourceMapper = () => {
         { 
           id: 'vpc', 
           service: 'VPC', 
-          x: 100, 
-          y: 120, 
-          z: 10,
-          width: 1100, 
-          height: 400, 
+          x: 50, 
+          y: 80, 
+          z: 5,
+          width: 1400, 
+          height: 500, 
           type: 'container' 
         },
-        // Left Column - API Layer
+        // Left Column - API Layer (spread vertically)
         { 
           id: 'api', 
           service: 'APIGateway', 
-          x: 200, 
+          x: 150, 
           y: 200, 
           z: 30,
           connections: [
@@ -233,19 +228,22 @@ const AWSResourceMapper = () => {
         { 
           id: 'cloudwatch', 
           service: 'CloudWatch', 
-          x: 200, 
-          y: 350, 
+          x: 150, 
+          y: 400, 
           z: 35,
-          connections: [] 
+          connections: [
+            { to: 'lambda-1', label: 'Logs', type: 'async', throughput: '2K/min' },
+            { to: 'lambda-2', label: 'Logs', type: 'async', throughput: '2K/min' }
+          ] 
         },
         
-        // Middle Column - Serverless Processing
+        // Middle Column - Serverless Processing (spread vertically)
         { 
           id: 'lambda-1', 
           service: 'Lambda', 
-          x: 500, 
+          x: 650, 
           y: 180, 
-          z: 45,
+          z: 40,
           connections: [
             { to: 's3', label: 'Data Store', type: 'sync', throughput: '300MB/s' }
           ]
@@ -253,21 +251,21 @@ const AWSResourceMapper = () => {
         { 
           id: 'lambda-2', 
           service: 'Lambda', 
-          x: 500, 
-          y: 320, 
-          z: 45,
+          x: 650, 
+          y: 420, 
+          z: 40,
           connections: [
             { to: 's3', label: 'Data Process', type: 'async', throughput: '200MB/s' }
           ]
         },
         
-        // Right Column - Storage
+        // Right Column - Storage (centered)
         { 
           id: 's3', 
           service: 'S3', 
-          x: 850, 
-          y: 250, 
-          z: 50,
+          x: 1150, 
+          y: 300, 
+          z: 45,
           connections: [] 
         }
       ],
@@ -277,46 +275,28 @@ const AWSResourceMapper = () => {
     }
   };
 
-  // Generate enhanced bent line paths with multiple control points
-  const generateBentPath = (start: { x: number; y: number }, end: { x: number; y: number }) => {
-    const dx = end.x - start.x;
-    const dy = end.y - start.y;
-    
-    // Create smooth curved path with multiple bends
-    const midX1 = start.x + dx * 0.3;
-    const midY1 = start.y;
-    const midX2 = start.x + dx * 0.7;
-    const midY2 = end.y;
-    
-    // Use quadratic bezier curves for smooth bends
-    return `M ${start.x} ${start.y} 
-            Q ${midX1 + 20} ${midY1 - 20} ${midX1} ${midY1} 
-            L ${midX2} ${midY2} 
-            Q ${midX2 + 20} ${midY2 + 20} ${end.x} ${end.y}`;
-  };
-
-  // Calculate connection points on smaller rectangle edges
+  // Calculate connection points for proper block sizing
   const getConnectionPoint = (resource: { x: number; y: number }, targetResource: { x: number; y: number }) => {
-    const sourceRect = { x: resource.x, y: resource.y, width: 100, height: 70 };
-    const targetRect = { x: targetResource.x, y: targetResource.y, width: 100, height: 70 };
+    const blockWidth = 140;
+    const blockHeight = 90;
+    
+    const sourceRect = { x: resource.x, y: resource.y, width: blockWidth, height: blockHeight };
+    const targetRect = { x: targetResource.x, y: targetResource.y, width: blockWidth, height: blockHeight };
     
     const sourceCenterX = sourceRect.x + sourceRect.width / 2;
     const sourceCenterY = sourceRect.y + sourceRect.height / 2;
     const targetCenterX = targetRect.x + targetRect.width / 2;
     const targetCenterY = targetRect.y + targetRect.height / 2;
     
-    const dx = targetCenterX - sourceCenterX;
-    const dy = targetCenterY - sourceCenterY;
-    
     let startPoint, endPoint;
     
-    // Always connect horizontally for left-middle-right layout
-    if (dx > 0) {
-      startPoint = { x: sourceRect.x + 100, y: sourceRect.y + 35 };
-      endPoint = { x: targetRect.x, y: targetRect.y + 35 };
+    // Connect from right edge to left edge for left-to-right flow
+    if (targetCenterX > sourceCenterX) {
+      startPoint = { x: sourceRect.x + blockWidth, y: sourceCenterY };
+      endPoint = { x: targetRect.x, y: targetCenterY };
     } else {
-      startPoint = { x: sourceRect.x, y: sourceRect.y + 35 };
-      endPoint = { x: targetRect.x + 100, y: targetRect.y + 35 };
+      startPoint = { x: sourceRect.x, y: sourceCenterY };
+      endPoint = { x: targetRect.x + blockWidth, y: targetCenterY };
     }
     
     return { startPoint, endPoint };
@@ -328,31 +308,31 @@ const AWSResourceMapper = () => {
     <div className="h-screen bg-gradient-to-br from-slate-900 via-slate-800 to-slate-900 flex flex-col overflow-hidden">
       <div className="flex flex-col h-full">
         {/* Header */}
-        <div className="text-center py-3 bg-gradient-to-r from-slate-800 to-slate-700 border-b border-slate-600">
-          <h1 className="text-2xl font-bold text-white mb-1">
-            3D AWS Cloud Architecture
+        <div className="text-center py-4 bg-gradient-to-r from-slate-800 to-slate-700 border-b border-slate-600">
+          <h1 className="text-3xl font-bold text-white mb-2">
+            AWS Cloud Architecture Visualizer
           </h1>
-          <p className="text-slate-300 text-sm">
-            Interactive 3D system architecture with clear connectivity flow
+          <p className="text-slate-300 text-base">
+            Interactive 3D system architecture with animated data flow
           </p>
         </div>
 
         {/* Application Selector */}
-        <div className="bg-gradient-to-r from-slate-700 to-slate-600 border-b border-slate-500 p-3">
+        <div className="bg-gradient-to-r from-slate-700 to-slate-600 border-b border-slate-500 p-4">
           <div className="flex items-center justify-between">
             <div>
-              <h2 className="text-lg font-semibold text-white mb-1">Architecture Selection</h2>
+              <h2 className="text-xl font-semibold text-white mb-2">{currentApp.title}</h2>
               <p className="text-sm text-slate-300 mb-1">{currentApp.description}</p>
-              <p className="text-xs text-blue-400 font-medium">Flow: {currentApp.flowDescription}</p>
+              <p className="text-sm text-blue-400 font-medium">Flow: {currentApp.flowDescription}</p>
             </div>
-            <div className="flex gap-3">
+            <div className="flex gap-4">
               {Object.keys(applications).map((app) => (
                 <button
                   key={app}
                   onClick={() => setSelectedApp(app)}
-                  className={`px-4 py-2 rounded-lg text-sm font-medium transition-all duration-300 border-2 ${
+                  className={`px-6 py-3 rounded-lg text-base font-medium transition-all duration-300 border-2 ${
                     selectedApp === app
-                      ? 'bg-gradient-to-r from-blue-600 to-blue-700 text-white border-blue-500'
+                      ? 'bg-gradient-to-r from-blue-600 to-blue-700 text-white border-blue-500 shadow-lg'
                       : 'bg-gradient-to-r from-slate-600 to-slate-700 text-slate-200 border-slate-500 hover:border-blue-400'
                   }`}
                 >
@@ -366,26 +346,26 @@ const AWSResourceMapper = () => {
         {/* Main 3D Architecture Diagram */}
         <div 
           ref={containerRef}
-          className="bg-gradient-to-br from-slate-800 to-slate-900 border border-slate-600 flex-1 overflow-hidden m-2 rounded-lg"
+          className="bg-gradient-to-br from-slate-800 to-slate-900 border border-slate-600 flex-1 overflow-hidden m-3 rounded-xl"
           style={{ 
             minHeight: '80vh',
             perspective: '2500px',
             perspectiveOrigin: '50% 50%'
           }}
         >
-          <div className="bg-gradient-to-r from-slate-700 to-slate-600 px-4 py-2 border-b border-slate-500">
+          <div className="bg-gradient-to-r from-slate-700 to-slate-600 px-6 py-3 border-b border-slate-500">
             <div className="flex items-center justify-between">
-              <h2 className="text-xl font-semibold text-white">{currentApp.title}</h2>
-              <div className="flex items-center gap-6 text-sm text-slate-300">
-                <div className="flex items-center gap-2">
-                  <div className="w-6 h-2 bg-blue-500 rounded"></div>
-                  <span>Synchronous</span>
+              <h2 className="text-2xl font-semibold text-white">{currentApp.title}</h2>
+              <div className="flex items-center gap-8 text-base text-slate-300">
+                <div className="flex items-center gap-3">
+                  <div className="w-8 h-3 bg-blue-500 rounded-full"></div>
+                  <span>Synchronous Flow</span>
                 </div>
-                <div className="flex items-center gap-2">
-                  <div className="w-6 h-2 bg-green-500 rounded opacity-75"></div>
-                  <span>Asynchronous</span>
+                <div className="flex items-center gap-3">
+                  <div className="w-8 h-3 bg-green-500 rounded-full opacity-75"></div>
+                  <span>Asynchronous Flow</span>
                 </div>
-                <div className="text-xs text-slate-400">Left → Middle → Right Flow</div>
+                <div className="text-sm text-slate-400 font-medium">Left → Middle → Right Architecture</div>
               </div>
             </div>
           </div>
@@ -393,29 +373,29 @@ const AWSResourceMapper = () => {
           <div 
             className="relative bg-gradient-to-br from-slate-800 to-slate-900 flex-1"
             style={{ 
-              height: 'calc(100% - 60px)', 
+              height: 'calc(100% - 70px)', 
               minHeight: '700px',
               transform: `rotateX(${rotationX}deg) rotateY(${rotationY}deg)`,
               transformStyle: 'preserve-3d',
-              transition: 'transform 0.1s ease-out'
+              transition: 'transform 0.15s ease-out'
             }}
           >
-            {/* Enhanced Grid Background with 3D effect */}
+            {/* Enhanced Grid Background */}
             <div 
               className="absolute inset-0" 
               style={{ 
-                transform: 'translateZ(-50px)',
+                transform: 'translateZ(-30px)',
                 transformStyle: 'preserve-3d'
               }}
             >
-              <svg width="100%" height="100%" className="w-full h-full opacity-20">
+              <svg width="100%" height="100%" className="w-full h-full opacity-15">
                 <defs>
-                  <pattern id="grid3d" width="40" height="40" patternUnits="userSpaceOnUse">
-                    <path d="M 40 0 L 0 0 0 40" fill="none" stroke="#475569" strokeWidth="1"/>
-                    <circle cx="0" cy="0" r="1" fill="#64748b"/>
+                  <pattern id="grid3d" width="50" height="50" patternUnits="userSpaceOnUse">
+                    <path d="M 50 0 L 0 0 0 50" fill="none" stroke="#475569" strokeWidth="1"/>
+                    <circle cx="0" cy="0" r="1.5" fill="#64748b"/>
                   </pattern>
                   <linearGradient id="gridGradient" x1="0%" y1="0%" x2="100%" y2="100%">
-                    <stop offset="0%" stopColor="#475569" stopOpacity="0.3"/>
+                    <stop offset="0%" stopColor="#475569" stopOpacity="0.4"/>
                     <stop offset="100%" stopColor="#64748b" stopOpacity="0.1"/>
                   </linearGradient>
                 </defs>
@@ -424,67 +404,66 @@ const AWSResourceMapper = () => {
               </svg>
             </div>
 
-            {/* Column Separators */}
-            <div className="absolute inset-0" style={{ transform: 'translateZ(5px)' }}>
+            {/* Column Separators with Labels */}
+            <div className="absolute inset-0" style={{ transform: 'translateZ(8px)' }}>
               {/* Left Column */}
-              <div className="absolute left-[150px] top-[100px] bottom-[100px] w-0.5 bg-gradient-to-b from-blue-500/30 to-blue-500/10"></div>
-              <div className="absolute left-[120px] top-[80px] text-blue-400 text-sm font-semibold bg-slate-800/80 px-3 py-1 rounded-lg">
+              <div className="absolute left-[300px] top-[60px] bottom-[60px] w-1 bg-gradient-to-b from-blue-500/40 to-blue-500/10 rounded-full"></div>
+              <div className="absolute left-[250px] top-[40px] text-blue-400 text-lg font-bold bg-slate-800/90 px-4 py-2 rounded-lg border border-blue-500/30">
                 Entry Layer
               </div>
               
               {/* Middle Column */}
-              <div className="absolute left-[450px] top-[100px] bottom-[100px] w-0.5 bg-gradient-to-b from-green-500/30 to-green-500/10"></div>
-              <div className="absolute left-[420px] top-[80px] text-green-400 text-sm font-semibold bg-slate-800/80 px-3 py-1 rounded-lg">
+              <div className="absolute left-[800px] top-[60px] bottom-[60px] w-1 bg-gradient-to-b from-green-500/40 to-green-500/10 rounded-full"></div>
+              <div className="absolute left-[730px] top-[40px] text-green-400 text-lg font-bold bg-slate-800/90 px-4 py-2 rounded-lg border border-green-500/30">
                 Processing Layer
               </div>
-              <div className="absolute left-[600px] top-[100px] bottom-[100px] w-0.5 bg-gradient-to-b from-green-500/30 to-green-500/10"></div>
               
               {/* Right Column */}
-              <div className="absolute left-[800px] top-[100px] bottom-[100px] w-0.5 bg-gradient-to-b from-purple-500/30 to-purple-500/10"></div>
-              <div className="absolute left-[780px] top-[80px] text-purple-400 text-sm font-semibold bg-slate-800/80 px-3 py-1 rounded-lg">
+              <div className="absolute left-[1300px] top-[60px] bottom-[60px] w-1 bg-gradient-to-b from-purple-500/40 to-purple-500/10 rounded-full"></div>
+              <div className="absolute left-[1240px] top-[40px] text-purple-400 text-lg font-bold bg-slate-800/90 px-4 py-2 rounded-lg border border-purple-500/30">
                 Data Layer
               </div>
             </div>
 
-            {/* VPC Container with enhanced 3D styling */}
+            {/* VPC Container */}
             {currentApp.resources.find((r: { type: string }) => r.type === 'container') && (
               <div
-                className="absolute border-2 border-dashed border-green-400 rounded-lg"
+                className="absolute border-3 border-dashed border-green-400 rounded-xl"
                 style={{
                   left: `${currentApp.resources.find((r: { type: string }) => r.type === 'container').x}px`,
                   top: `${currentApp.resources.find((r: { type: string }) => r.type === 'container').y}px`,
                   width: `${currentApp.resources.find((r: { type: string }) => r.type === 'container').width}px`,
                   height: `${currentApp.resources.find((r: { type: string }) => r.type === 'container').height}px`,
                   background: 'linear-gradient(135deg, rgba(34, 197, 94, 0.08) 0%, rgba(34, 197, 94, 0.03) 100%)',
-                  backdropFilter: 'blur(8px)',
-                  transform: 'translateZ(10px)',
+                  backdropFilter: 'blur(10px)',
+                  transform: 'translateZ(5px)',
                   transformStyle: 'preserve-3d',
                   boxShadow: `
-                    0 20px 40px rgba(34, 197, 94, 0.1),
-                    inset 0 1px 0 rgba(34, 197, 94, 0.2)
+                    0 25px 50px rgba(34, 197, 94, 0.15),
+                    inset 0 1px 0 rgba(34, 197, 94, 0.3)
                   `
                 }}
               >
                 <div 
-                  className="absolute -top-12 left-4 bg-gradient-to-r from-green-600 to-green-700 text-white px-4 py-2 rounded-lg text-sm font-semibold shadow-xl"
+                  className="absolute -top-16 left-6 bg-gradient-to-r from-green-600 to-green-700 text-white px-6 py-3 rounded-xl text-base font-bold shadow-2xl border border-green-500"
                   style={{
-                    transform: 'translateZ(20px)',
-                    boxShadow: '0 10px 25px rgba(34, 197, 94, 0.3)'
+                    transform: 'translateZ(25px)',
+                    boxShadow: '0 15px 35px rgba(34, 197, 94, 0.4)'
                   }}
                 >
-                  <div className="flex items-center gap-2">
-                    <span className="text-lg">🏢</span>
+                  <div className="flex items-center gap-3">
+                    <span className="text-2xl">🏢</span>
                     <span>VPC (Virtual Private Cloud)</span>
                   </div>
                 </div>
               </div>
             )}
 
-            {/* Enhanced SVG for Connections with bent lines */}
+            {/* Simple Animated Connection Lines */}
             <svg 
               className="absolute inset-0 w-full h-full pointer-events-none" 
               style={{ 
-                transform: 'translateZ(25px)',
+                transform: 'translateZ(20px)',
                 transformStyle: 'preserve-3d'
               }}
             >
@@ -492,59 +471,57 @@ const AWSResourceMapper = () => {
                 {/* Enhanced Arrow Markers */}
                 <marker
                   id="sync-arrow"
-                  markerWidth="16"
-                  markerHeight="16"
-                  refX="14"
-                  refY="8"
+                  markerWidth="20"
+                  markerHeight="20"
+                  refX="18"
+                  refY="10"
                   orient="auto"
                   markerUnits="strokeWidth"
                 >
                   <path 
-                    d="M2,2 L2,14 L14,8 z" 
+                    d="M2,2 L2,18 L18,10 z" 
                     fill="#3b82f6" 
                     stroke="#1d4ed8" 
                     strokeWidth="1"
-                    filter="drop-shadow(0 2px 4px rgba(59, 130, 246, 0.4))"
+                    filter="drop-shadow(0 3px 6px rgba(59, 130, 246, 0.5))"
                   />
                 </marker>
                 
                 <marker
                   id="async-arrow"
-                  markerWidth="16"
-                  markerHeight="16"
-                  refX="14"
-                  refY="8"
+                  markerWidth="20"
+                  markerHeight="20"
+                  refX="18"
+                  refY="10"
                   orient="auto"
                   markerUnits="strokeWidth"
                 >
                   <path 
-                    d="M2,2 L2,14 L14,8 z" 
+                    d="M2,2 L2,18 L18,10 z" 
                     fill="#10b981" 
                     stroke="#059669" 
                     strokeWidth="1"
-                    filter="drop-shadow(0 2px 4px rgba(16, 185, 129, 0.4))"
+                    filter="drop-shadow(0 3px 6px rgba(16, 185, 129, 0.5))"
                   />
                 </marker>
 
-                {/* Glow filters */}
-                <filter id="connectionGlow">
-                  <feGaussianBlur stdDeviation="4" result="coloredBlur"/>
-                  <feMerge> 
-                    <feMergeNode in="coloredBlur"/>
-                    <feMergeNode in="SourceGraphic"/>
-                  </feMerge>
-                </filter>
-
                 {/* Flow animation patterns */}
-                <pattern id="flowPattern" patternUnits="userSpaceOnUse" width="20" height="4">
-                  <rect width="20" height="4" fill="none"/>
-                  <circle cx="2" cy="2" r="1" fill="rgba(255,255,255,0.8)">
-                    <animate attributeName="cx" values="2;18;2" dur="2s" repeatCount="indefinite"/>
+                <pattern id="flowPatternSync" patternUnits="userSpaceOnUse" width="30" height="6">
+                  <rect width="30" height="6" fill="none"/>
+                  <circle cx="3" cy="3" r="2" fill="rgba(59, 130, 246, 0.8)">
+                    <animate attributeName="cx" values="3;27;3" dur="1.5s" repeatCount="indefinite"/>
+                  </circle>
+                </pattern>
+
+                <pattern id="flowPatternAsync" patternUnits="userSpaceOnUse" width="30" height="6">
+                  <rect width="30" height="6" fill="none"/>
+                  <circle cx="3" cy="3" r="2" fill="rgba(16, 185, 129, 0.8)">
+                    <animate attributeName="cx" values="3;27;3" dur="2s" repeatCount="indefinite"/>
                   </circle>
                 </pattern>
               </defs>
 
-              {/* Enhanced Connection Rendering with bent lines */}
+              {/* Simple Straight Connection Lines */}
               {currentApp.resources
                 .filter((r: { type: string }) => r.type !== 'container')
                 .map((resource: {
@@ -558,89 +535,91 @@ const AWSResourceMapper = () => {
                   if (!targetResource) return null;
 
                   const { startPoint, endPoint } = getConnectionPoint(resource, targetResource);
-                  const pathData = generateBentPath(startPoint, endPoint);
                   const flowId = `${resource.id}-${connection.to}`;
                   
                   const isSync = connection.type === 'sync';
                   const strokeColor = isSync ? '#3b82f6' : '#10b981';
-                  const strokeWidth = highlightedFlow === flowId ? 6 : 4;
+                  const strokeWidth = highlightedFlow === flowId ? 8 : 5;
 
                   return (
                     <g key={flowId}>
                       {/* Background glow line */}
-                      <path
-                        d={pathData}
+                      <line
+                        x1={startPoint.x}
+                        y1={startPoint.y}
+                        x2={endPoint.x}
+                        y2={endPoint.y}
                         stroke={strokeColor}
-                        strokeWidth={strokeWidth + 4}
-                        fill="none"
-                        opacity="0.2"
+                        strokeWidth={strokeWidth + 6}
+                        opacity="0.3"
                         strokeLinecap="round"
-                        strokeLinejoin="round"
                       />
                       
-                      {/* Main connection line with enhanced styling */}
-                      <path
-                        d={pathData}
+                      {/* Main connection line */}
+                      <line
+                        x1={startPoint.x}
+                        y1={startPoint.y}
+                        x2={endPoint.x}
+                        y2={endPoint.y}
                         stroke={strokeColor}
                         strokeWidth={strokeWidth}
-                        fill="none"
-                        strokeDasharray={isSync ? 'none' : '15,8'}
+                        strokeDasharray={isSync ? 'none' : '20,10'}
                         markerEnd={isSync ? "url(#sync-arrow)" : "url(#async-arrow)"}
                         strokeLinecap="round"
-                        strokeLinejoin="round"
                         className="transition-all duration-300 cursor-pointer"
                         onMouseEnter={() => setHighlightedFlow(flowId)}
                         onMouseLeave={() => setHighlightedFlow(null)}
-                        opacity={highlightedFlow === flowId ? 1 : 0.85}
-                        filter={highlightedFlow === flowId ? "url(#connectionGlow)" : "none"}
+                        opacity={highlightedFlow === flowId ? 1 : 0.9}
                         style={{ pointerEvents: 'stroke' }}
                       />
 
                       {/* Flow animation overlay */}
                       {highlightedFlow === flowId && (
-                        <path
-                          d={pathData}
-                          stroke="url(#flowPattern)"
-                          strokeWidth="2"
-                          fill="none"
+                        <line
+                          x1={startPoint.x}
+                          y1={startPoint.y}
+                          x2={endPoint.x}
+                          y2={endPoint.y}
+                          stroke={isSync ? "url(#flowPatternSync)" : "url(#flowPatternAsync)"}
+                          strokeWidth="4"
                           strokeLinecap="round"
                         />
                       )}
 
-                      {/* Enhanced Connection Label with better positioning */}
-                      <g transform={`translate(${(startPoint.x + endPoint.x) / 2}, ${(startPoint.y + endPoint.y) / 2 - 20})`}>
+                      {/* Connection Label */}
+                      <g transform={`translate(${(startPoint.x + endPoint.x) / 2}, ${(startPoint.y + endPoint.y) / 2 - 25})`}>
                         <rect
-                          x="-50"
-                          y="-25"
-                          width="100"
-                          height="50"
-                          rx="10"
+                          x="-60"
+                          y="-30"
+                          width="120"
+                          height="60"
+                          rx="12"
                           fill="rgba(15, 23, 42, 0.95)"
                           stroke={strokeColor}
                           strokeWidth="2"
-                          filter="drop-shadow(0 4px 12px rgba(0, 0, 0, 0.4))"
+                          filter="drop-shadow(0 6px 16px rgba(0, 0, 0, 0.5))"
                         />
                         <text
                           x="0"
-                          y="-8"
+                          y="-10"
                           textAnchor="middle"
-                          className="text-xs font-bold fill-white"
+                          className="text-sm font-bold fill-white"
                         >
                           {connection.label}
                         </text>
                         <text
                           x="0"
-                          y="4"
+                          y="5"
                           textAnchor="middle"
-                          className="text-xs fill-slate-300"
+                          className="text-sm fill-slate-300"
                         >
                           {connection.throughput}
                         </text>
                         <text
                           x="0"
-                          y="16"
+                          y="20"
                           textAnchor="middle"
-                          className="text-xs font-bold"
+                          className="text-sm font-bold"
                           fill={strokeColor}
                         >
                           {isSync ? 'SYNC' : 'ASYNC'}
@@ -652,14 +631,14 @@ const AWSResourceMapper = () => {
               )}
             </svg>
 
-            {/* Smaller AWS Resources with proper 3D layering */}
+            {/* Properly Sized AWS Resource Blocks */}
             <div className="relative w-full h-full" style={{ transformStyle: 'preserve-3d' }}>
               {currentApp.resources
                 .filter((r: { type: string }) => r.type !== 'container')
                 .sort((a, b) => (a.z || 0) - (b.z || 0))
                 .map((resource: { service: string; id: string; x: number; y: number; z?: number; connections: any[] }) => {
                   const serviceConfig = serviceIcons[resource.service as keyof typeof serviceIcons];
-                  const zDepth = resource.z || serviceConfig.depth;
+                  const zDepth = resource.z || 30;
                   
                 return (
                   <div
@@ -668,25 +647,25 @@ const AWSResourceMapper = () => {
                     style={{
                       left: `${resource.x}px`,
                       top: `${resource.y}px`,
-                      width: '100px',
-                      height: '70px',
+                      width: '140px',
+                      height: '90px',
                       transform: `translateZ(${zDepth}px)`,
                       transformStyle: 'preserve-3d',
                       zIndex: Math.floor(zDepth)
                     }}
                   >
-                    {/* Smaller Service Container with enhanced 3D effects */}
+                    {/* Enhanced Service Block */}
                     <div
-                      className="w-full h-full rounded-lg shadow-2xl border-2 transition-all duration-300 group-hover:shadow-3xl group-hover:scale-110 flex flex-col justify-center items-center p-2 relative overflow-hidden"
+                      className="w-full h-full rounded-xl shadow-2xl border-3 transition-all duration-300 group-hover:shadow-3xl group-hover:scale-110 flex flex-col justify-center items-center p-3 relative overflow-hidden"
                       style={{
                         background: serviceConfig.bgColor,
                         borderColor: serviceConfig.borderColor,
-                        borderLeftWidth: '4px',
+                        borderLeftWidth: '6px',
                         borderLeftColor: serviceConfig.color,
                         boxShadow: `
-                          0 ${zDepth/3}px ${zDepth/2}px ${serviceConfig.shadowColor},
-                          0 6px 12px rgba(0, 0, 0, 0.15),
-                          inset 0 1px 0 rgba(255, 255, 255, 0.3)
+                          0 ${zDepth/2}px ${zDepth}px ${serviceConfig.shadowColor},
+                          0 8px 16px rgba(0, 0, 0, 0.2),
+                          inset 0 1px 0 rgba(255, 255, 255, 0.4)
                         `,
                         transform: `
                           perspective(1000px) 
@@ -695,39 +674,28 @@ const AWSResourceMapper = () => {
                         `
                       }}
                     >
-                      {/* Depth indicator */}
-                      <div 
-                        className="absolute top-0.5 right-0.5 text-xs font-bold px-1 py-0.5 rounded text-white"
-                        style={{ 
-                          background: `linear-gradient(135deg, ${serviceConfig.color} 0%, ${serviceConfig.color}AA 100%)`,
-                          fontSize: '8px'
-                        }}
-                      >
-                        {zDepth}
-                      </div>
-
                       {/* Service Icon */}
                       <div 
-                        className="text-xl mb-1 transition-transform duration-300 group-hover:scale-125"
+                        className="text-3xl mb-2 transition-transform duration-300 group-hover:scale-125"
                         style={{
-                          filter: 'drop-shadow(0 1px 2px rgba(0, 0, 0, 0.2))',
-                          transform: `translateZ(${zDepth/4}px)`
+                          filter: 'drop-shadow(0 2px 4px rgba(0, 0, 0, 0.3))',
+                          transform: `translateZ(${zDepth/3}px)`
                         }}
                       >
                         {serviceConfig.icon}
                       </div>
                       
                       {/* Service Name */}
-                      <div className="text-xs font-bold text-center text-gray-800 leading-tight mb-1">
+                      <div className="text-sm font-bold text-center text-gray-800 leading-tight mb-1">
                         {serviceConfig.label}
                       </div>
                       
                       {/* Service Category */}
                       <div 
-                        className="text-xs px-2 py-0.5 rounded text-white font-semibold shadow-sm"
+                        className="text-xs px-3 py-1 rounded-full text-white font-bold shadow-lg"
                         style={{ 
-                          background: `linear-gradient(135deg, ${serviceConfig.color} 0%, ${serviceConfig.color}CC 100%)`,
-                          fontSize: '9px'
+                          background: `linear-gradient(135deg, ${serviceConfig.color} 0%, ${serviceConfig.color}DD 100%)`,
+                          fontSize: '10px'
                         }}
                       >
                         {serviceConfig.category}
@@ -736,10 +704,10 @@ const AWSResourceMapper = () => {
                       {/* Connection Count Badge */}
                       {resource.connections.length > 0 && (
                         <div 
-                          className="absolute -right-1 -top-1 bg-gradient-to-r from-blue-500 to-blue-600 text-white rounded-full w-4 h-4 flex items-center justify-center text-xs font-bold shadow-lg"
+                          className="absolute -right-2 -top-2 bg-gradient-to-r from-blue-500 to-blue-600 text-white rounded-full w-6 h-6 flex items-center justify-center text-xs font-bold shadow-xl border-2 border-white"
                           style={{
                             transform: `translateZ(${zDepth/2}px)`,
-                            fontSize: '8px'
+                            fontSize: '10px'
                           }}
                         >
                           {resource.connections.length}
@@ -747,18 +715,18 @@ const AWSResourceMapper = () => {
                       )}
                     </div>
                     
-                    {/* Enhanced Hover Details */}
+                    {/* Enhanced Hover Tooltip */}
                     <div 
-                      className="absolute -top-16 left-1/2 transform -translate-x-1/2 bg-gradient-to-r from-slate-800 to-slate-900 text-white px-3 py-2 rounded-lg text-xs opacity-0 group-hover:opacity-100 transition-all duration-300 pointer-events-none whitespace-nowrap shadow-2xl border border-slate-600"
+                      className="absolute -top-20 left-1/2 transform -translate-x-1/2 bg-gradient-to-r from-slate-800 to-slate-900 text-white px-4 py-3 rounded-xl text-sm opacity-0 group-hover:opacity-100 transition-all duration-300 pointer-events-none whitespace-nowrap shadow-2xl border border-slate-600"
                       style={{
-                        transform: `translateX(-50%) translateZ(${zDepth + 20}px)`,
+                        transform: `translateX(-50%) translateZ(${zDepth + 30}px)`,
                         zIndex: 1000
                       }}
                     >
-                      <div className="font-semibold text-white">{serviceConfig.label}</div>
-                      <div className="text-slate-300 text-xs">{serviceConfig.category}</div>
-                      <div className="text-blue-400 text-xs">Depth: {zDepth}px</div>
-                      <div className="text-slate-400 text-xs">Links: {resource.connections.length}</div>
+                      <div className="font-bold text-white text-base">{serviceConfig.label}</div>
+                      <div className="text-slate-300 text-sm">{serviceConfig.category}</div>
+                      <div className="text-blue-400 text-sm">Depth: {zDepth}px</div>
+                      <div className="text-slate-400 text-sm">Connections: {resource.connections.length}</div>
                     </div>
                   </div>
                 );
@@ -767,23 +735,23 @@ const AWSResourceMapper = () => {
           </div>
         </div>
 
-        {/* Enhanced Architecture Summary */}
-        <div className="bg-gradient-to-r from-slate-700 to-slate-600 border border-slate-500 rounded-lg p-3 shadow-xl m-2">
-          <h3 className="text-lg font-semibold text-white mb-2">Architecture Components</h3>
-          <div className="grid grid-cols-3 gap-4">
+        {/* Architecture Summary */}
+        <div className="bg-gradient-to-r from-slate-700 to-slate-600 border border-slate-500 rounded-xl p-4 shadow-2xl m-3">
+          <h3 className="text-xl font-bold text-white mb-3">Architecture Overview</h3>
+          <div className="grid grid-cols-3 gap-6">
             {/* Left Column Components */}
-            <div className="bg-gradient-to-br from-blue-600/20 to-blue-700/10 rounded-lg p-3 border border-blue-500/30">
-              <h4 className="text-blue-400 font-semibold mb-2 text-sm">Entry Layer</h4>
-              <div className="space-y-2">
+            <div className="bg-gradient-to-br from-blue-600/20 to-blue-700/10 rounded-xl p-4 border border-blue-500/30">
+              <h4 className="text-blue-400 font-bold mb-3 text-base">Entry Layer</h4>
+              <div className="space-y-3">
                 {currentApp.resources
-                  .filter((r: { type: string; x: number }) => r.type !== 'container' && r.x < 350)
+                  .filter((r: { type: string; x: number }) => r.type !== 'container' && r.x < 500)
                   .map((resource: { service: string; id: string; connections: any[] }) => {
                     const serviceConfig = serviceIcons[resource.service as keyof typeof serviceIcons];
                     return (
-                      <div key={resource.id} className="flex items-center gap-2 text-xs">
-                        <span className="text-sm">{serviceConfig.icon}</span>
-                        <span className="text-white font-medium">{serviceConfig.label}</span>
-                        <span className="text-blue-400">({resource.connections.length})</span>
+                      <div key={resource.id} className="flex items-center gap-3 text-sm">
+                        <span className="text-lg">{serviceConfig.icon}</span>
+                        <span className="text-white font-semibold">{serviceConfig.label}</span>
+                        <span className="text-blue-400 font-bold">({resource.connections.length})</span>
                       </div>
                     );
                   })}
@@ -791,18 +759,18 @@ const AWSResourceMapper = () => {
             </div>
 
             {/* Middle Column Components */}
-            <div className="bg-gradient-to-br from-green-600/20 to-green-700/10 rounded-lg p-3 border border-green-500/30">
-              <h4 className="text-green-400 font-semibold mb-2 text-sm">Processing Layer</h4>
-              <div className="space-y-2">
+            <div className="bg-gradient-to-br from-green-600/20 to-green-700/10 rounded-xl p-4 border border-green-500/30">
+              <h4 className="text-green-400 font-bold mb-3 text-base">Processing Layer</h4>
+              <div className="space-y-3">
                 {currentApp.resources
-                  .filter((r: { type: string; x: number }) => r.type !== 'container' && r.x >= 350 && r.x < 750)
+                  .filter((r: { type: string; x: number }) => r.type !== 'container' && r.x >= 500 && r.x < 1000)
                   .map((resource: { service: string; id: string; connections: any[] }) => {
                     const serviceConfig = serviceIcons[resource.service as keyof typeof serviceIcons];
                     return (
-                      <div key={resource.id} className="flex items-center gap-2 text-xs">
-                        <span className="text-sm">{serviceConfig.icon}</span>
-                        <span className="text-white font-medium">{serviceConfig.label}</span>
-                        <span className="text-green-400">({resource.connections.length})</span>
+                      <div key={resource.id} className="flex items-center gap-3 text-sm">
+                        <span className="text-lg">{serviceConfig.icon}</span>
+                        <span className="text-white font-semibold">{serviceConfig.label}</span>
+                        <span className="text-green-400 font-bold">({resource.connections.length})</span>
                       </div>
                     );
                   })}
@@ -810,18 +778,18 @@ const AWSResourceMapper = () => {
             </div>
 
             {/* Right Column Components */}
-            <div className="bg-gradient-to-br from-purple-600/20 to-purple-700/10 rounded-lg p-3 border border-purple-500/30">
-              <h4 className="text-purple-400 font-semibold mb-2 text-sm">Data Layer</h4>
-              <div className="space-y-2">
+            <div className="bg-gradient-to-br from-purple-600/20 to-purple-700/10 rounded-xl p-4 border border-purple-500/30">
+              <h4 className="text-purple-400 font-bold mb-3 text-base">Data Layer</h4>
+              <div className="space-y-3">
                 {currentApp.resources
-                  .filter((r: { type: string; x: number }) => r.type !== 'container' && r.x >= 750)
+                  .filter((r: { type: string; x: number }) => r.type !== 'container' && r.x >= 1000)
                   .map((resource: { service: string; id: string; connections: any[] }) => {
                     const serviceConfig = serviceIcons[resource.service as keyof typeof serviceIcons];
                     return (
-                      <div key={resource.id} className="flex items-center gap-2 text-xs">
-                        <span className="text-sm">{serviceConfig.icon}</span>
-                        <span className="text-white font-medium">{serviceConfig.label}</span>
-                        <span className="text-purple-400">({resource.connections.length})</span>
+                      <div key={resource.id} className="flex items-center gap-3 text-sm">
+                        <span className="text-lg">{serviceConfig.icon}</span>
+                        <span className="text-white font-semibold">{serviceConfig.label}</span>
+                        <span className="text-purple-400 font-bold">({resource.connections.length})</span>
                       </div>
                     );
                   })}
